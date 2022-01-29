@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var action: NotificationCompat.Action
 
     private var url = ""
+    private var fileName = ""
+    private var description = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +39,20 @@ class MainActivity : AppCompatActivity() {
 
         glide.setOnClickListener {
             url = GLIDE_URL
+            fileName = getString(R.string.glide)
+            description = getString(R.string.txt_glide)
         }
 
         retrofit.setOnClickListener {
             url = RETROFIT_URL
+            fileName = getString(R.string.retrofit)
+            description = getString(R.string.txt_retrofit)
         }
 
         load_app.setOnClickListener {
             url = URL
+            fileName = getString(R.string.load_app)
+            description = getString(R.string.txt_load_app)
         }
 
         custom_button.setOnClickListener {
@@ -59,14 +67,18 @@ class MainActivity : AppCompatActivity() {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+                if(downloadID == id ) {
+                    // TODO: create a notification
+
+                }
         }
     }
 
     private fun download() {
         val request =
             DownloadManager.Request(Uri.parse(url))
-                .setTitle(getString(R.string.app_name))
-                .setDescription(getString(R.string.app_description))
+                .setTitle(fileName)
+                .setDescription(description)
                 .setRequiresCharging(false)
                 .setAllowedOverMetered(true)
                 .setAllowedOverRoaming(true)
