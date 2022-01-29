@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.withStyledAttributes
 import kotlin.properties.Delegates
 
@@ -24,13 +23,13 @@ private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.FILL
     textAlign = Paint.Align.LEFT
     textSize = 55.0f
-    typeface = Typeface.create( "", Typeface.BOLD)
+    typeface = Typeface.create("", Typeface.BOLD)
 }
 
 private var normalColor = 0
 private var downloadColor = 0
 
-private var normalText: String?  = null
+private var normalText: String? = null
 private var downloadText: String? = null
 
 class LoadingButton @JvmOverloads constructor(
@@ -44,12 +43,10 @@ class LoadingButton @JvmOverloads constructor(
     private val valueAnimator = ValueAnimator()
 
 
-
     override fun performClick(): Boolean {
         if (super.performClick()) return true
 
         status = status.next()
-        contentDescription = resources.getString(status.status)
 
         invalidate()
         return true
@@ -63,7 +60,7 @@ class LoadingButton @JvmOverloads constructor(
     init {
         isClickable = true
 
-        context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
+        context.withStyledAttributes( attrs, R.styleable.LoadingButton) {
             normalColor = getColor(R.styleable.LoadingButton_normal_color, 0)
             downloadColor = getColor(R.styleable.LoadingButton_download_color, 0)
             normalText = getString(R.styleable.LoadingButton_normal_text)
@@ -72,28 +69,33 @@ class LoadingButton @JvmOverloads constructor(
     }
 
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         // set background
 
-        paint.color = when(status) {
-        Status.NORMAL -> normalColor
-            else -> downloadColor
+        paint.color = when (status) {
+            Status.NORMAL -> normalColor
+            Status.DOWNLOAD -> downloadColor
+        }
+
+        val text = when (status) {
+            Status.NORMAL -> normalText
+            Status.DOWNLOAD -> downloadText
         }
 
         val rect = Rect(0, 0, width, height)
 
-            canvas?.drawRect(rect, paint)
+        canvas.drawRect(rect, paint)
 
-            canvas?.save()
+        //canvas?.save()
 
-            paint.color = Color.WHITE
-            paint.textAlign = Paint.Align.CENTER
+        paint.color = Color.WHITE
+        paint.textAlign = Paint.Align.CENTER
 
-            canvas?.drawText(normalText ?: "Default", rect.exactCenterX(), rect.centerY().toFloat(), paint)
+        canvas.drawText(text ?: "", rect.exactCenterX(), rect.centerY().toFloat(), paint)
 
-            canvas?.restore()
+        //canvas?.restore()
 
 
     }
