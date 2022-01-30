@@ -1,16 +1,16 @@
 package com.udacity
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import android.view.animation.LinearInterpolator
-import androidx.annotation.Dimension
 import androidx.core.content.withStyledAttributes
-import kotlin.properties.Delegates
 
+
+// Status for the button
 
 private enum class Status(val status: Int) {
     NORMAL(R.string.button_name),
@@ -22,19 +22,22 @@ private enum class Status(val status: Int) {
     }
 }
 
+// Default configuration fo paint
+
 private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.FILL
     textAlign = Paint.Align.LEFT
-    textSize = 55.0f
+    textSize = 40.0f
     typeface = Typeface.create("", Typeface.BOLD)
 }
+
+// Variable for the custom attributes
 
 private var normalColor = 0
 private var downloadColor = 0
 
 private var normalText: String? = null
 private var downloadText: String? = null
-private var textSize: Dimension? = null
 
 private var actualPosition = 0
 
@@ -46,8 +49,8 @@ class LoadingButton @JvmOverloads constructor(
 
     private var status = Status.NORMAL         // The active selection.
 
-   // private val valueAnimator = ValueAnimator()
 
+    // This method update the status of the button, called from activity or fragment
 
     fun updateStatus(){
 
@@ -55,6 +58,14 @@ class LoadingButton @JvmOverloads constructor(
 
         invalidate()
     }
+
+    fun isDownloading(): Boolean {
+        if (status == Status.DOWNLOAD) return true
+
+        return false
+    }
+
+    // This method animate the loading button, called from button's listener
 
     fun actualPosition() {
         ValueAnimator.ofInt(0,widthSize).apply {
@@ -70,11 +81,8 @@ class LoadingButton @JvmOverloads constructor(
 
     }
 
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
 
-
-    }
-
+    // Get the attributes for the button
 
     init {
         isClickable = true
@@ -89,12 +97,13 @@ class LoadingButton @JvmOverloads constructor(
     }
 
 
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         val actualP = actualPosition
 
-        // set background
+        // set color for the background
 
         paint.color = normalColor
 
@@ -107,18 +116,19 @@ class LoadingButton @JvmOverloads constructor(
 
         canvas.drawRect(rect, paint)
 
+        // Set the background color animated
+
         if(status == Status.DOWNLOAD) {
-            paint.color = when(status){
-                    Status.DOWNLOAD -> downloadColor
-                else -> normalColor
-        }
+            paint.color = downloadColor
+
             canvas.drawRect(Rect(0,0,actualP, height), paint)
         }
 
 
+        // Draw the text
+
         paint.color = Color.WHITE
         paint.textAlign = Paint.Align.CENTER
-        paint.textSize = 32F
 
         canvas.drawText(text ?: "", rect.exactCenterX(), rect.centerY().toFloat(), paint)
 

@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_detail.view.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
@@ -57,11 +58,24 @@ class MainActivity : AppCompatActivity() {
 
         custom_button.setOnClickListener {
             if (url.isNotEmpty()) {
-                download()
-                custom_button.updateStatus()
-                custom_button.actualPosition()
+                if (!custom_button.isDownloading()) {
+                    download()
+                    custom_button.updateStatus()
+                    custom_button.actualPosition()
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.txt_please_wait),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             } else {
-                Toast.makeText(this, "Please select the file to download", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.txt_select_a_file),
+                    Toast.LENGTH_LONG
+                )
+                    .show()
             }
         }
     }
@@ -69,10 +83,13 @@ class MainActivity : AppCompatActivity() {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-                if(downloadID == id ) {
-                    // TODO: create a notification
+            if (downloadID == id) {
+                //TODO: change the button status
+                custom_button.updateStatus()
 
-                }
+                // TODO: create a notification
+
+            }
         }
     }
 

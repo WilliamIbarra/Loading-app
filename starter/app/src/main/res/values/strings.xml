@@ -20,4 +20,6 @@
     <string name="glide">Glide</string>
     <string name="retrofit">Retrofit</string>
     <string name="load_app">Load App</string>
+    <string name="txt_please_wait">Please wait for the current download to finish...</string>
+    <string name="txt_select_a_file">Please select the file to download</string>
 </resources>
