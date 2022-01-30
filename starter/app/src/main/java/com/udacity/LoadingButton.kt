@@ -122,6 +122,12 @@ class LoadingButton @JvmOverloads constructor(
             paint.color = downloadColor
 
             canvas.drawRect(Rect(0,0,actualP, height), paint)
+
+            // Reset the animator
+            if(actualP == widthSize){
+                actualPosition()
+            }
+
         }
 
 
