@@ -4,6 +4,7 @@
 <!--   TODO: create custom attributes for the view-->
             <attr name="normal_color" format="color" />
             <attr name="download_color" format="color" />
+            <attr name="text_color" format="color"/>
             <attr name="normal_text" format="string"/>
             <attr name="download_text" format="string"/>
     </declare-styleable>

@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_detail.view.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 if (!custom_button.isDownloading()) {
                     download()
                     custom_button.updateStatus()
-                    custom_button.actualPosition()
+                    custom_button.updatePosition()
                 } else {
                     Toast.makeText(
                         this,

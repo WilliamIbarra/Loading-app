@@ -39,6 +39,8 @@ private var downloadColor = 0
 private var normalText: String? = null
 private var downloadText: String? = null
 
+private var textColor = 0
+
 private var actualPosition = 0
 
 class LoadingButton @JvmOverloads constructor(
@@ -67,7 +69,7 @@ class LoadingButton @JvmOverloads constructor(
 
     // This method animate the loading button, called from button's listener
 
-    fun actualPosition() {
+    fun updatePosition() {
         ValueAnimator.ofInt(0,widthSize).apply {
             duration = 3000
             interpolator = LinearInterpolator()
@@ -90,6 +92,7 @@ class LoadingButton @JvmOverloads constructor(
         context.withStyledAttributes( attrs, R.styleable.LoadingButton) {
             normalColor = getColor(R.styleable.LoadingButton_normal_color, 0)
             downloadColor = getColor(R.styleable.LoadingButton_download_color, 0)
+            textColor = getColor(R.styleable.LoadingButton_text_color, 0)
             normalText = getString(R.styleable.LoadingButton_normal_text)
             downloadText = getString(R.styleable.LoadingButton_download_text)
         }
@@ -125,7 +128,7 @@ class LoadingButton @JvmOverloads constructor(
 
             // Reset the animator
             if(actualP == widthSize){
-                actualPosition()
+                updatePosition()
             }
 
         }
@@ -133,7 +136,7 @@ class LoadingButton @JvmOverloads constructor(
 
         // Draw the text
 
-        paint.color = Color.WHITE
+        paint.color = textColor
         paint.textAlign = Paint.Align.CENTER
 
         canvas.drawText(text ?: "", rect.exactCenterX(), rect.centerY().toFloat(), paint)
