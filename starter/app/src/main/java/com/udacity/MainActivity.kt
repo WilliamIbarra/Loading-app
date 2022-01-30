@@ -58,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         custom_button.setOnClickListener {
             if (url.isNotEmpty()) {
                 download()
+                custom_button.updateStatus()
+                custom_button.actualPosition()
             } else {
                 Toast.makeText(this, "Please select the file to download", Toast.LENGTH_LONG).show()
             }

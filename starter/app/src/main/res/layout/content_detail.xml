@@ -23,7 +23,7 @@
         android:text="@string/txt_file_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="guide"/>
+        app:layout_constraintEnd_toEndOf="@id/guide"/>
 
     <TextView
         android:id="@+id/file_name"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="guide"/>
+        app:layout_constraintStart_toEndOf="@id/guide"/>
 
     <TextView
         android:layout_width="0dp"
@@ -39,7 +39,7 @@
         android:text="@string/txt_status"
         app:layout_constraintTop_toBottomOf="@id/file_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="guide"/>
+        app:layout_constraintEnd_toEndOf="@id/guide"/>
 
 
 
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/file_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="guide"/>
+        app:layout_constraintStart_toEndOf="@id/guide"/>
 
     <Button
         android:layout_width="match_parent"

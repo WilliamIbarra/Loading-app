@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.core.content.withStyledAttributes
 import kotlin.properties.Delegates
 
@@ -32,6 +33,8 @@ private var downloadColor = 0
 private var normalText: String? = null
 private var downloadText: String? = null
 
+private var actualPosition = 0
+
 class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
@@ -40,19 +43,32 @@ class LoadingButton @JvmOverloads constructor(
 
     private var status = Status.NORMAL         // The active selection.
 
-    private val valueAnimator = ValueAnimator()
+   // private val valueAnimator = ValueAnimator()
 
 
-    override fun performClick(): Boolean {
-        if (super.performClick()) return true
+    fun updateStatus(){
 
         status = status.next()
 
         invalidate()
-        return true
+    }
+
+    fun actualPosition() {
+        ValueAnimator.ofInt(0,widthSize).apply {
+            duration = 3000
+            interpolator = LinearInterpolator()
+            addUpdateListener {
+                actualPosition = it.animatedValue as Int
+                invalidate()
+            }
+            start()
+        }
+
+
     }
 
     private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+
 
     }
 
@@ -66,18 +82,18 @@ class LoadingButton @JvmOverloads constructor(
             normalText = getString(R.styleable.LoadingButton_normal_text)
             downloadText = getString(R.styleable.LoadingButton_download_text)
         }
+
     }
 
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        val actualP = actualPosition
+
         // set background
 
-        paint.color = when (status) {
-            Status.NORMAL -> normalColor
-            Status.DOWNLOAD -> downloadColor
-        }
+        paint.color = normalColor
 
         val text = when (status) {
             Status.NORMAL -> normalText
@@ -88,14 +104,20 @@ class LoadingButton @JvmOverloads constructor(
 
         canvas.drawRect(rect, paint)
 
-        //canvas?.save()
+        if(status == Status.DOWNLOAD) {
+            paint.color = when(status){
+                    Status.DOWNLOAD -> downloadColor
+                else -> normalColor
+        }
+            canvas.drawRect(Rect(0,0,actualP, height), paint)
+        }
+
 
         paint.color = Color.WHITE
         paint.textAlign = Paint.Align.CENTER
 
         canvas.drawText(text ?: "", rect.exactCenterX(), rect.centerY().toFloat(), paint)
 
-        //canvas?.restore()
 
 
     }
