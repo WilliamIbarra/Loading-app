@@ -4,8 +4,10 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.annotation.Dimension
 import androidx.core.content.withStyledAttributes
 import kotlin.properties.Delegates
 
@@ -32,6 +34,7 @@ private var downloadColor = 0
 
 private var normalText: String? = null
 private var downloadText: String? = null
+private var textSize: Dimension? = null
 
 private var actualPosition = 0
 
@@ -115,6 +118,7 @@ class LoadingButton @JvmOverloads constructor(
 
         paint.color = Color.WHITE
         paint.textAlign = Paint.Align.CENTER
+        paint.textSize = 32F
 
         canvas.drawText(text ?: "", rect.exactCenterX(), rect.centerY().toFloat(), paint)
 
