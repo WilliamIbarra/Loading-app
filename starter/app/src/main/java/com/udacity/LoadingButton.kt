@@ -42,6 +42,12 @@ private var downloadText: String? = null
 private var textColor = 0
 
 private var actualPosition = 0
+private var actualDegrees = 0
+
+
+private const val radius = 20F
+
+private val rectF: RectF = RectF(100F - radius,50F - radius,100F + radius,50F + radius)
 
 class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -80,7 +86,22 @@ class LoadingButton @JvmOverloads constructor(
             start()
         }
 
+        updateDegrees()
 
+
+    }
+
+    private fun updateDegrees() {
+        ValueAnimator.ofInt(0, 360).apply {
+            duration = 3000
+            interpolator = LinearInterpolator()
+            addUpdateListener {
+                actualDegrees = it.animatedValue as Int
+                invalidate()
+            }
+
+            start()
+        }
     }
 
 
@@ -126,6 +147,12 @@ class LoadingButton @JvmOverloads constructor(
 
             canvas.drawRect(Rect(0,0,actualP, height), paint)
 
+            // Draw circle animated
+
+            paint.color = textColor
+
+            canvas.drawArc(rectF, 0F, actualDegrees.toFloat(), true, paint)
+
             // Reset the animator
             if(actualP == widthSize){
                 updatePosition()
@@ -146,8 +173,8 @@ class LoadingButton @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth
-        val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 1)
+        val minW: Int = paddingLeft + paddingRight + suggestedMinimumWidth
+        val w: Int = resolveSizeAndState(minW, widthMeasureSpec, 1)
         val h: Int = resolveSizeAndState(
             MeasureSpec.getSize(w),
             heightMeasureSpec,
