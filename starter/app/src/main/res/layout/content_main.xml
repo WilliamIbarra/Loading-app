@@ -52,6 +52,7 @@
         app:normal_color="@color/colorPrimary"
         app:download_color="@color/colorPrimaryDark"
         app:text_color="@color/white"
+        app:circle_color="@color/colorAccent"
         app:normal_text="Download"
         app:download_text="Downloading"
         android:layout_height="60dp"

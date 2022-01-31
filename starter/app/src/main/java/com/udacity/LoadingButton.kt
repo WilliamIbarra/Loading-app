@@ -40,6 +40,7 @@ private var normalText: String? = null
 private var downloadText: String? = null
 
 private var textColor = 0
+private var circleColor = 0
 
 private var actualPosition = 0
 private var actualDegrees = 0
@@ -114,6 +115,7 @@ class LoadingButton @JvmOverloads constructor(
             normalColor = getColor(R.styleable.LoadingButton_normal_color, 0)
             downloadColor = getColor(R.styleable.LoadingButton_download_color, 0)
             textColor = getColor(R.styleable.LoadingButton_text_color, 0)
+            circleColor = getColor(R.styleable.LoadingButton_circle_color, 0)
             normalText = getString(R.styleable.LoadingButton_normal_text)
             downloadText = getString(R.styleable.LoadingButton_download_text)
         }
@@ -149,7 +151,7 @@ class LoadingButton @JvmOverloads constructor(
 
             // Draw circle animated
 
-            paint.color = textColor
+            paint.color = circleColor
 
             canvas.drawArc(rectF, 0F, actualDegrees.toFloat(), true, paint)
 
