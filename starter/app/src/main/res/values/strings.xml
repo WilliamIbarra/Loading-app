@@ -24,4 +24,5 @@
     <string name="txt_select_a_file">Please select the file to download</string>
     <string name="txt_notification_title">Download completed</string>
     <string name="txt_channel_description">Notification channel for Load App</string>
+    <string name="txt_error">Error</string>
 </resources>

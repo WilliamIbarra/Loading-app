@@ -90,10 +90,10 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             if (downloadID == id) {
-                //TODO: change the button status
+                //Change the button status
                 custom_button.updateStatus()
 
-                // TODO: create a notification
+                // Create a notification
 
                 makeNotification()
 
@@ -109,6 +109,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, DetailActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
+        intent.putExtra("name", fileName)
+        intent.putExtra("status", SUCCESS)
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
@@ -168,6 +170,8 @@ class MainActivity : AppCompatActivity() {
         private const val URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
         private const val CHANNEL_ID = "channelId"
+
+        private const val SUCCESS = "Success"
     }
 
 }
