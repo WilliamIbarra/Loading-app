@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity() {
             // Set the intent that will fire when the user taps the notification
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
+            .addAction(R.drawable.ic_assistant_black_24dp, getString(R.string.txt_open_detail), pendingIntent)
 
 
         with(NotificationManagerCompat.from(this)) {
